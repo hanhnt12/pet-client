@@ -2,19 +2,27 @@
 <div class="container">
   <h1>Product list</h1>
   <div v-if="loopRow > 0">
-  <div v-for="row in loopRow" :key="row._id" class="row slideanim">
+  <!-- <div v-for="row in loopRow" :key="row._id" class="row slideanim">
     <Prd @addToCart="addToCart(product)" v-for="(product, index) in getSection(row)" :index="index" :product="product" :key="product._id"></Prd>
-  </div>
+  </div> -->
+    <div class="row">
+      <product v-for="(product, index) in products" 
+      :index="index" :product="product" :key="product._id">
+      </product>
+    </div>
   </div>
   <div v-else>
     <h1>No data found</h1>
   </div>
+  <modal-error></modal-error>
 </div>
 </template>
 
 <script>
-import Prd from '@/components/Prd'
+import Product from '@/components/Prd'
 import Service from '@/services/Services'
+import ModalError from '@/components/ModalError'
+
 export default {
   name: 'hello',
   data () {
@@ -24,7 +32,8 @@ export default {
     }
   },
   components: {
-    Prd
+    Product,
+    ModalError
   },
 
   methods: {
@@ -37,6 +46,7 @@ export default {
         this.loopRow = Math.ceil(this.products.length / 3)
         // console.log(this.products.length)
       } catch (e) {
+        this.$emit('error', e)
         console.log(e)
         return
       }
@@ -55,6 +65,7 @@ export default {
     }
   },
   created () {
+    console.log('Productlist.vue:  ' + this.$root.categories)
     // get prarameter
     let category = this.$route.params.category
     console.log(category)

@@ -11,13 +11,11 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 Vue.use(BootstrapVue)
 Vue.use(VueResource)
 
-Vue.config.productionTip = false
-// Vue.http.headers.common['Access-Control-Allow-Origin'] = '*'
-// Vue.http.headers.common['Access-Control-Request-Method'] = '*'
-
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
+  data: {
+  },
   router,
   template: '<App/>',
   components: { App }

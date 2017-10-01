@@ -20,7 +20,8 @@
         <li><router-link to="/about">About</router-link></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><router-link to="/cart">Giỏ hàng</router-link></li>
+        <li><router-link to="/cart"> Giỏ hàng </router-link></li>
+        <li><router-link to="/dashboard"> Admin </router-link></li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">HanhNT <span class="caret"></span></a>
           <ul class="dropdown-menu">

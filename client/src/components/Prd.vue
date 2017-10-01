@@ -3,9 +3,9 @@
     <div class="thumbnail">
       <img :src="product.imagePath" :alt="product.title" class="img-response">
       <div class="caption">
-        <h3>{{product.title}}</h3>
-        <p class="description">{{ product.description }}</p>
-        <div class="clearfix">
+        <h3 class="title">{{product.title}}</h3>
+        <p class="description">{{ cutCharacter(product.description, 200) }}</p>
+        <div class="clearfix control">
           <div class="price pull-left">$ {{product.price}}</div>
           <button @click="addToCart" class="btn btn-success pull-right" role="button">
             <i class="fa fa-cart-plus" aria-hidden="true"></i> Add to Cart
@@ -30,6 +30,15 @@ export default {
   methods: {
     addToCart () {
       this.$emit('addToCart')
+    },
+
+    // cut characters
+    cutCharacter (strInput, length) {
+      if (strInput.length > length) {
+        return strInput.slice(0, length) + '...'
+      } else {
+        return strInput
+      }
     }
   }
 }
@@ -39,8 +48,17 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .thumbnail {
-    min-height: 350px;
+  height: 400px;
 }
+
+.title {
+  height: 50px;
+}
+
+.description {
+  height: 100px;
+}
+
 .thumbnail img {
     max-height: 150px;
 }

@@ -1,23 +1,44 @@
 <template>
   <div id="app">
-    <NavbarTop></NavbarTop>
+    <navbar-top></navbar-top>
     <router-view></router-view>
-    <Footerc></Footerc>
+    <modal-error :showModal="showModal" @close="showModal = false"></modal-error>
+    <footerc></footerc>
   </div>
 </template>
 
 <script>
 import NavbarTop from '@/components/NavbarTop'
 import Footerc from '@/components/Footerc'
+import ModalError from '@/components/ModalError'
 
 export default {
   name: 'app',
+
   components: {
     NavbarTop,
-    Footerc
+    Footerc,
+    ModalError
   },
+
   data () {
-    return {}
+    return {
+      showModal: false
+    }
+  },
+
+  methods: {
+
+  },
+
+  created () {
+
+  },
+
+  beforeCreate () {
+  },
+
+  ready () {
   }
 }
 </script>
