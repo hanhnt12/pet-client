@@ -1,14 +1,14 @@
 <template>
   <div id="app">
-    <navbar-top></navbar-top>
+    <navbar></navbar>
     <router-view></router-view>
-    <modal-error :showModal="showModal" @close="showModal = false"></modal-error>
     <footerc></footerc>
+    <modal-error :showModal="showModal" @close="showModal = false"></modal-error>
   </div>
 </template>
 
 <script>
-import NavbarTop from '@/components/NavbarTop'
+import Navbar from '@/components/Navbar'
 import Footerc from '@/components/Footerc'
 import ModalError from '@/components/ModalError'
 
@@ -16,7 +16,7 @@ export default {
   name: 'app',
 
   components: {
-    NavbarTop,
+    Navbar,
     Footerc,
     ModalError
   },
@@ -32,13 +32,14 @@ export default {
   },
 
   created () {
+        // Register event listener
+    this.$bus.$on('error', message => {
+      // log message error
+      console.log(message)
 
-  },
-
-  beforeCreate () {
-  },
-
-  ready () {
+      this.showModal = true
+      console.log('showModal: ' + this.showModal)
+    })
   }
 }
 </script>

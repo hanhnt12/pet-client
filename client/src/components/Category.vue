@@ -6,7 +6,7 @@
       <h4>Chọn cho mình một sản phẩm ưng ý nhất</h4>
     </div>
     <div class="row slideanim">
-      <div v-for="(category, index) in categories" :key="category._id" class="col-sm-4 col-xs-12">
+      <div v-for="(category, index) in this.$bus.categories" :key="category._id" class="col-sm-4 col-xs-12">
         <div class="panel panel-default text-center">
           <div class="panel-heading title">
             <h1>{{category.title}}</h1>
@@ -26,44 +26,12 @@
 </template>
 
 <script>
-import Services from '@/services/Services'
-
 export default {
-  name: 'hello',
-
+  name: 'category',
   data () {
     return {
       categories: []
     }
-  },
-
-  methods: {
-    // load categories on start up
-    async loadCategory () {
-      try {
-        // call service to get list categories
-        const categories = await Services.getCategory()
-        this.categories = categories.data
-        // setting list categories to global scope
-        this.$root.categories = this.categories
-      } catch (e) {
-        console.log(e)
-        this.$emit('error', e)
-      }
-    }
-  },
-
-  created () {
-        // load list categories
-    this.loadCategory()
-
-    console.log(this.categories)
-
-    // handle when have error
-    this.$on('error', function (message) {
-      this.showModal = true
-    })
-    console.log('Category.vue:  ' + this.$root.categories)
   }
 }
 </script>

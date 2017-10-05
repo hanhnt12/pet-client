@@ -1,41 +1,56 @@
 <template>
 <div class="container">
-  <h1>Product list</h1>
-  <div v-if="loopRow > 0">
-  <!-- <div v-for="row in loopRow" :key="row._id" class="row slideanim">
-    <Prd @addToCart="addToCart(product)" v-for="(product, index) in getSection(row)" :index="index" :product="product" :key="product._id"></Prd>
-  </div> -->
-    <div class="row">
-      <product v-for="(product, index) in products" 
-      :index="index" :product="product" :key="product._id">
-      </product>
+    <div class="well well-sm">
+        <strong>Products</strong>
+        <div class="btn-group">
+            <a href="#" id="list" @click="changeToList" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-th-list">
+            </span>List</a> <a href="#" id="grid" @click="changeToGrid" class="btn btn-default btn-sm"><span
+                class="glyphicon glyphicon-th"></span>Grid</a>
+        </div>
     </div>
-  </div>
-  <div v-else>
-    <h1>No data found</h1>
-  </div>
-  <modal-error></modal-error>
+    <div id="products" class="row list-group" >
+        <div :class="listOrGrid" class="item col-sm-6 col-md-4"
+          v-for="(product, index) in products"
+          :key="product._id">
+            <div class="thumbnail">
+                <img class="group list-group-image img-response" :src="product.imagePath" alt="" />
+                <div class="caption">
+                    <h3 class="title">{{product.title}}</h3>
+                    <h4 class="group inner list-group-item-heading">
+                        {{product.name}}
+                    </h4>
+                    <p class="group inner list-group-item-text description">
+                      {{cutCharacter(product.description, 200)}}
+                    </p>
+                    <div class="row">
+                        <div class="col-sm-6 col-md-4">
+                            <p class="lead price">
+                              $ {{product.price}}
+                            </p>
+                        </div>
+                        <div class="col-sm-6 col-md-4">
+                            <a class="btn btn-success" href="/#">Add to cart</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 </template>
 
 <script>
-import Product from '@/components/Prd'
-import Service from '@/services/Services'
-import ModalError from '@/components/ModalError'
+import Service from '@/api/Services'
 
 export default {
-  name: 'hello',
+  name: 'NavBar',
+
   data () {
     return {
       products: [],
-      loopRow: 0
+      listOrGrid: 'grid-group-item'
     }
   },
-  components: {
-    Product,
-    ModalError
-  },
-
   methods: {
     async getProducts (category) {
       try {
@@ -43,25 +58,28 @@ export default {
         var response = await Service.getProducts(category)
         // console.log(response.data)
         this.products = response.data
-        this.loopRow = Math.ceil(this.products.length / 3)
         // console.log(this.products.length)
       } catch (e) {
         this.$emit('error', e)
         console.log(e)
-        return
       }
-
-      return response.data
     },
 
-    async addToCart (product) {
-      console.log('add to cart: ' + product._id)
-      const result = await Service.addToCart(product._id)
-      console.log(result)
+    changeToGrid () {
+      this.listOrGrid = 'grid-group-item'
     },
 
-    getSection (section) {
-      return this.products.slice((section - 1) * 3, section * 3)
+    changeToList () {
+      this.listOrGrid = 'list-group-item'
+    },
+
+    // cut characters
+    cutCharacter (strInput, length) {
+      if (strInput.length > length) {
+        return strInput.slice(0, length) + '...'
+      } else {
+        return strInput
+      }
     }
   },
   created () {
@@ -73,7 +91,6 @@ export default {
     // console.log('looprow' + this.loopRow)
   }
 }
-
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -110,5 +127,85 @@ export default {
         opacity: 1;
         -webkit-transform: translateY(0%);
     }
+}
+
+.thumbnail {
+  max-height: 400px;
+}
+
+.title {
+  height: 50px;
+}
+
+.description {
+  height: 100px;
+}
+
+.thumbnail img {
+    max-height: 150px;
+}
+
+.thumbnail .description {
+    color: #7f7f7f;
+}
+
+.price {
+    font-weight: bold;
+    font-size: 16px;
+    color: #9D0D0D;
+}
+
+.item.list-group-item
+{
+    float: none;
+    width: 100%;
+    background-color: #fff;
+    margin-bottom: 10px;
+}
+.item.list-group-item:nth-of-type(odd):hover,.item.list-group-item:hover
+{
+    background: #428bca;
+}
+
+.item.list-group-item .list-group-image
+{
+    margin-right: 10px;
+}
+.item.list-group-item .thumbnail
+{
+    margin-bottom: 0px;
+}
+.item.list-group-item .caption
+{
+    padding: 9px 9px 0px 9px;
+}
+.item.list-group-item:nth-of-type(odd)
+{
+    background: #eeeeee;
+}
+
+.item.list-group-item:before, .item.list-group-item:after
+{
+    display: table;
+    content: " ";
+}
+
+.item.grid-group-item img
+{
+    max-height: 150px;
+}
+
+.item.list-group-item img
+{
+    float: left;
+    max-height: 150px;
+}
+.item.list-group-item:after
+{
+    clear: both;
+}
+.list-group-item-text
+{
+    margin: 0 0 11px;
 }
 </style>

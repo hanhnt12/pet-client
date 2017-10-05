@@ -1,4 +1,4 @@
-import Api from '@/services/Api'
+import Api from './Api'
 var path = require('path')
 
 export default {

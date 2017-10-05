@@ -26,7 +26,10 @@ export default {
   },
 
   created () {
-
+    this.$on('error', function () {
+      console.log('have error')
+      this.showModal = true
+    })
   }
 }
 </script>

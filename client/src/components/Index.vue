@@ -3,6 +3,7 @@
   <HeaderBar></HeaderBar>
   <Category></Category>
   <Contact></Contact>
+  <modal-error :showModal="showModal" @close="showModal = false"></modal-error>
   </div>
 </template>
 
@@ -10,24 +11,36 @@
 import HeaderBar from '@/components/HeaderBar'
 import Category from '@/components/Category'
 import Contact from '@/components/Contact'
+import ModalError from '@/components/ModalError'
 
 export default {
   name: 'index',
 
   data () {
-    return {}
+    return {
+      showModal: false
+    }
   },
 
   components: {
     HeaderBar,
     Category,
-    Contact
+    Contact,
+    ModalError
   },
 
   methods: {
   },
 
   created () {
+    console.log('Index created.')
+    this.$on('error', function () {
+      console.log('have error')
+      this.showModal = true
+    })
+  },
+
+  ready () {
   }
 }
 </script>
