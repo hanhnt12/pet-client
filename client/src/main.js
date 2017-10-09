@@ -8,6 +8,7 @@ import VueResource from 'vue-resource'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import Bus from './api/Bus'
+import store from './store'
 
 Object.defineProperty(Vue.prototype, '$bus', {
   get () {
@@ -26,6 +27,7 @@ new Vue({
   data: {
     bus: bus // Here we bind our event bus to our $root Vue model.
   },
+  store,
   router,
   template: '<App/>',
   components: { App }

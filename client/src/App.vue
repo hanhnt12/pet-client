@@ -2,6 +2,7 @@
   <div id="app">
     <navbar></navbar>
     <router-view></router-view>
+    <login v-if="showLogin" @showLogin="showLogin = true"></login>
     <footerc></footerc>
     <modal-error :showModal="showModal" @close="showModal = false"></modal-error>
   </div>
@@ -11,6 +12,7 @@
 import Navbar from '@/components/Navbar'
 import Footerc from '@/components/Footerc'
 import ModalError from '@/components/ModalError'
+import Login from '@/components/Login'
 
 export default {
   name: 'app',
@@ -18,12 +20,14 @@ export default {
   components: {
     Navbar,
     Footerc,
-    ModalError
+    ModalError,
+    Login
   },
 
   data () {
     return {
-      showModal: false
+      showModal: false,
+      showLogin: false
     }
   },
 
@@ -32,7 +36,7 @@ export default {
   },
 
   created () {
-        // Register event listener
+    // Register event listener
     this.$bus.$on('error', message => {
       // log message error
       console.log(message)

@@ -1,5 +1,5 @@
 <template>
-<transition name="modal">
+  <transition name="modal">
     <div class="modal-mask">
       <div class="modal-wrapper">
         <div class="modal-container">
@@ -26,10 +26,9 @@
 
 <script>
 export default {
-  name: 'hello',
+  name: 'Modal',
   data () {
     return {
-      showModal: false
     }
   },
   created () {
@@ -40,7 +39,11 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style>
+body#app {
+  overflow: hidden;
+}
+
 .modal-mask {
   position: fixed;
   z-index: 9998;
@@ -48,9 +51,9 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, .5);
-  display: table;
+  background-color: #000;
   transition: opacity .3s ease;
+  display: table !important;
 }
 
 .modal-wrapper {
@@ -59,8 +62,8 @@ export default {
 }
 
 .modal-container {
-  width: 500px;
-  margin: 0px auto;
+  width: 90%;
+  margin: 20px auto;
   padding: 20px 30px;
   background-color: #fff;
   border-radius: 2px;

@@ -29,18 +29,28 @@
                             </p>
                         </div>
                         <div class="col-sm-6 col-md-4">
-                            <a class="btn btn-success" href="/#">Add to cart</a>
+                            <a class="btn btn-success" href="/#" 
+                                @click.prevent="showDetails(product._id)"> View more</a>
+                            <!-- <router-link :to="product._id" > View more </router-link> -->
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <product-details 
+      :showModal="showDetail" 
+      v-bind:product="productDetails"
+      @close="showDetail = false">
+    </product-details>
 </div>
+                            
 </template>
 
 <script>
 import Service from '@/api/Services'
+import ProductDetails from '@/components/ProductDetails'
 
 export default {
   name: 'NavBar',
@@ -48,10 +58,19 @@ export default {
   data () {
     return {
       products: [],
-      listOrGrid: 'grid-group-item'
+      listOrGrid: 'grid-group-item',
+      showDetail: false,
+      productId: '',
+      productDetails: null
     }
   },
+
+  components: {
+    ProductDetails
+  },
+
   methods: {
+    // get list products
     async getProducts (category) {
       try {
         // console.log('before')
@@ -60,15 +79,33 @@ export default {
         this.products = response.data
         // console.log(this.products.length)
       } catch (e) {
-        this.$emit('error', e)
+        this.$bus.$emit('error', e)
         console.log(e)
       }
     },
 
+    // get product details
+    async getProduct (productId) {
+      try {
+        // console.log('before')
+        let response = await Service.getProduct(productId)
+        console.log(response.data)
+        this.productDetails = response.data
+        console.log('id:' + this.productDetails._id)
+        // console.log(this.productDetails)
+      } catch (e) {
+        this.$bus.$emit('error', e)
+        console.log('Không thể lấy được thông tin chi tiết sản phẩm.')
+        console.log(e)
+      }
+    },
+
+    // switch layout to grid
     changeToGrid () {
       this.listOrGrid = 'grid-group-item'
     },
 
+    // switch layout to list
     changeToList () {
       this.listOrGrid = 'list-group-item'
     },
@@ -80,6 +117,17 @@ export default {
       } else {
         return strInput
       }
+    },
+
+    // show details product
+    async showDetails (productId) {
+      // load product details
+      console.log('before get data')
+      await this.getProduct(productId)
+      console.log(this.productDetails)
+      console.log('after get data')
+      // show modal
+      this.showDetail = true
     }
   },
   created () {

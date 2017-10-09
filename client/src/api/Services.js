@@ -13,6 +13,17 @@ export default {
     return Api().get(url)
   },
 
+  // get product details
+  getProduct (productId) {
+    var url = 'products/product'
+    if (productId) {
+      url = path.resolve(url, productId)
+    }
+
+    console.log(`param request: ${productId}`)
+    return Api().get(url)
+  },
+
   // add product to cart
   addToCart (productId) {
     return Api().post('cart/add/' + productId)
@@ -21,5 +32,10 @@ export default {
   // load category product
   getCategory (param) {
     return Api().get('categories')
+  },
+
+  // login action
+  doLogin (credentials) {
+    return Api().post('/user/authenticate', credentials)
   }
 }

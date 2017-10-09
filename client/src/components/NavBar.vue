@@ -14,15 +14,26 @@
         <li><router-link to="/about">About</router-link></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
         <li><router-link to="/cart"> Giỏ hàng </router-link></li>
-        <li><router-link to="/dashboard"> Admin </router-link></li>
-        <li class="dropdown">
+        <li v-if="!$store.state.isLogedIn">
+          <router-link to="/login">
+            <i class="fa fa-sign-out" aria-hidden="true"> Login </i>
+          </router-link>
+        </li>
+        <li v-else class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" 
-          role="button" aria-haspopup="true" aria-expanded="false">HanhNT <span class="caret"></span></a>
+          role="button" aria-haspopup="true" aria-expanded="false">
+            {{$store.state.user.username}} <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="#">Action</a></li>
+            <li v-if="$store.state.user.role === 'admin'">
+              <router-link to="/dashboard">System Dashboard</router-link>
+            </li>
+            <li><a href="/user/profile"> Profile </a></li>
             <li role="separator" class="divider"></li>
-            <li><a href="#">Logout</a></li>
+            <li><a href="#" @click.prevent="logOut"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout </a></li>
           </ul>
         </li>
       </ul>
@@ -36,6 +47,20 @@ export default {
   name: 'NavBar',
   data () {
     return {
+    }
+  },
+  methods: {
+    logOut () {
+      if (this.$store.state.isLogedIn) {
+        // clear data
+        this.$store.dispatch('setToken', null)
+        this.$store.dispatch('setUser', null)
+
+        // router to home page
+        this.$router.push({
+          name: 'Index'
+        })
+      }
     }
   },
   created () {
