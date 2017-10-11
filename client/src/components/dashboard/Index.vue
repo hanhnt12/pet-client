@@ -1,5 +1,5 @@
 <template>
-<div class="row">
+<div class="container-fluid">
   <side-bar></side-bar>
   <router-view></router-view>
 </div>
